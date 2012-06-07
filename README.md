@@ -14,19 +14,24 @@ http://stevelosh.com/projects/t/
 `tasklist [-t | -f file | -d taskNr]`
 
 `tasklist my new task`
-add a new task
+
+  * add a new task
 
 `tasklist -f TASKFILE`
-name the taskfile to read from, by default it is `.tasklist`
 
-`tasklist -d TASK_NR'
-delete/finish a task
+  * name the taskfile to read from, by default it is `.tasklist`
+
+`tasklist -d TASK_NR`
+
+  * delete/finish a task
 
 `tasklist -t`
-list tasks if the file was last visited 6 hours ago
+
+  * list tasks if the file was last visited 6 hours ago
 
 `tasklist`
-list all tasks
+
+  * list all tasks
 
 ### How I use it
 
