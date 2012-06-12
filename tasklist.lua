@@ -16,10 +16,9 @@ TaskList.__index = TaskList
 TaskList.filename = 'unkown file'
 TaskList.lastSeen = 'date in here'
 
-function new(sFilename)
+function new()
   local tl = {}
   setmetatable(tl,TaskList)
-  tl.filename = sFilename or TASKLIST
   return tl
 end
 
@@ -95,24 +94,22 @@ function TaskList:timeToPrint()
 end
 
 function main()
-  -- evaluate arguments
   local tl = {}
   
   opt = robem.getopt(arg,"f:d:t")
 
-  tl=new(opt.f)
+  tl=new()
+  tl.filename = opt.f or TASKLIST
   tl:load()
 
   -- DEL TASK from table
   if opt.d then
     table.remove(tl,opt.d)    
-    tl:print()
     
   -- ADD TASK to table
   elseif opt.text then
     local sTaskDesc = table.concat(opt.text,' ')
     tl:writeTask(sTaskDesc)
-    tl:print()
 
   -- PRINT if timestamp while ago
   elseif opt.t then 
