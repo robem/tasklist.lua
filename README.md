@@ -2,6 +2,8 @@
 
 Licence: _public domain_
 
+Lua Version: 5.1 & 5.2
+
 ## Description
 
 `tasklist` is a lua script to list and add tasks as easy as possible on commandline.

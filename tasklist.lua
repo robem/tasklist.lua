@@ -1,5 +1,3 @@
-require 'robem'
-
 TASKLIST='.tasklist'
 TMP='.tasklist.tmp'
 
@@ -7,8 +5,8 @@ PATTERN_TASK_NR   ='^(%d+) :: '
 PATTERN_TASK_DESC ='^%d+ :: (.*)'
 PATTERN_TIME      ='^(%d+)$'
 
-COLOR1=string.char(27)..'[;41m' -- red
-COLOR2=string.char(27)..'[;45m' -- pink
+COLOR1=string.char(27)..'[30;44m' -- blue
+COLOR2=string.char(27)..'[30;46m' -- cyan
 CLEAR=string.char(27)..'[0m'
 
 TaskList = {}
@@ -33,7 +31,7 @@ function TaskList:load()
   for l in file:lines() do
 
     if l:match(PATTERN_TIME) then
-      self.lastSeen=l
+      self.lastSeen=tonumber(l)
 
     elseif l:match(PATTERN_TASK_NR) then
       local num = tonumber(l:match(PATTERN_TASK_NR))
@@ -96,7 +94,28 @@ end
 function main()
   local tl = {}
   
-  opt = robem.getopt(arg,"f:d:t")
+	local opt = {}
+	for k,v in ipairs(arg) do
+		if (v == '-f') then
+			opt.f = arg[k+1]
+			file = true
+			delete = false
+		elseif (v == '-d') then
+			opt.d = tonumber(arg[k+1])
+			delete = true
+			file = false
+		elseif (v == '-t') then
+			opt.t = true
+		elseif (not file and not delete) then
+			opt.text = opt.text or {}
+			table.insert(opt.text, v)
+			delete = false
+			file = false
+		else
+			delete = false
+			file = false
+		end
+	end
 
   tl=new()
   tl.filename = opt.f or TASKLIST
@@ -125,7 +144,7 @@ function main()
   end
 
   -- ALWAYS at the end
-  -- writes tasks and time to file
+  -- write tasks and time to file
   tl:writeTime()
 end
 
